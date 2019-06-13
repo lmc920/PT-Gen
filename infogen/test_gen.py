@@ -10,6 +10,8 @@ if __name__ == '__main__':
         "https://movie.douban.com/subject/3541415/",  # Douban Normal Foreign
         "https://movie.douban.com/subject/1297880/",  # Douban Normal Chinese
         "https://movie.douban.com/subject/5295054/",  # Fix No year error in Douban
+        "https://douban.com/subject/30395527/",  # Wide Douban Link without subdomain
+        "https://www.douban.com/subject/26970964/"  # Wide Douban Link with subdomain like `www`
     ]
 
     imdb_link_list = [
@@ -42,13 +44,24 @@ if __name__ == '__main__':
         "http://jdaklvhgfad.com/adfad",  # No support link
     ]
 
-    test_link_list = [
+    dict_link_list = [
+        # Douban
+        {'site': 'douban', 'sid': 3541415},  # Input dict object
+        {'site': 'douban', 'sid': 'tt0083662'},  # IMDb though Douban
+        # IMDb
+        {'site': 'imdb', 'sid': 83662},
+        {'site': 'imdb', 'sid': 'tt0083662'},
+        {'site': 'imdb', 'sid': 'tt0111161'}
+    ]
 
+    test_link_list = [
+        {'site': 'imdb', 'sid': 'tt0111161'}
     ]
     # test_link_list.extend(douban_link_list)
     # test_link_list.extend(imdb_link_list)
     # test_link_list.extend(bgm_link_list)
     # test_link_list.extend(steam_link_list)
+    # test_link_list.extend(dict_link_list)
     # test_link_list.extend(other_link_list)
 
     for link in test_link_list:
@@ -56,6 +69,8 @@ if __name__ == '__main__':
         gen = Gen(link).gen(_debug=True)
         if gen["success"]:
             print("Format text:\n", gen["format"])
+            import json
+            print(json.dumps(gen,ensure_ascii=False,sort_keys=True))
         else:
             print("Error : {}".format(gen["error"]))
         print("--------------------")
